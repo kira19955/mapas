@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--********************LIBRERIAS js Y CSS PARA OPENLAYERS**************************************************-->
+    <script src="https://cdn.jsdelivr.net/npm/ol@v7.1.0/dist/ol.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.1.0/ol.css">
+    <!--*********************************************************************************************************-->
+
+
+    <!--********************esta libreria permite hacer el cambio en mapas base **************************************************-->
+    <script src="http://raw.githack.com/walkermatt/ol-layerswitcher/master/dist/ol-layerswitcher.js"></script>
+    <link rel="stylesheet" href="http://raw.githack.com/walkermatt/ol-layerswitcher/master/dist/ol-layerswitcher.css"
+        type="text/css">
+    <!--*********************************************************************************************************-->
+
+
+    <style>
+        /* SE DEFINE EL TAMAÑO DEL MAPA*/
+        .map {
+            width: 500px;
+            height: 500px;
+        }
+
+        .layer-switcher {
+            font-family: sans-serif;
+            font-size: small;
+        }
+    </style>
+    </style>
+
+    <title>OPEN LAYERS PRUEBA</title>
+</head>
+
+<body>
+
+    <div id="map" class="map">
+        <!--EN ESTE DIV SE CARGARA EL MAPA CREADO POR ESO LLEVA EL ID MAP-->
+    </div>
+
+    <script>
+
+        const mapagoogle = new ol.layer.Tile({
+            title: "GOOGLE SATELITE",                       //al usar la libreria para mapas base y poner el boton se debede agregar tambien un title al mapa y un type:'base'
+            type: 'base',
+            visible: false,
+            source: new ol.source.XYZ({
+                url: "http://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}&s=Ga"
+            })
+        })
+
+        const lysgogole = new ol.layer.Tile({
+            title: "GOOGLE",                       //al usar la libreria para mapas base y poner el boton se debede agregar tambien un title al mapa y un type:'base'
+            type: 'base',
+            visible: false,
+            source: new ol.source.XYZ({
+                url: "https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}"
+            })
+        })
+
+        const lysOSM = new ol.layer.Tile({
+            title: "OSM",                       //al usar la libreria para mapas base y poner el boton se debede agregar tambien un title al mapa y un type:'base'
+            type: 'base',
+            visible: true,
+            source: new ol.source.OSM()
+
+        })
+
+
+        const map = new ol.Map({
+            target: 'map',       //se espesifica en donde se renderiza el mapa
+            layers: [            //capas que mostrara el mapa
+
+
+                /* new ol.layer.Tile({
+                        source: new ol.source.OSM()
+                    }) */
+
+                //lysOSM
+                //mapagoogle
+                //lysgogole
+
+                new ol.layer.Group({
+                    title: 'MAPA BASE',
+                    layers: [
+                        lysOSM,
+                        mapagoogle,
+                        lysgogole
+                    ]
+                })
+
+
+            ],
+            view: new ol.View({             //como ver la posision y zoom de del mapa al  cargar
+                center: ol.proj.fromLonLat([-96.872206, 19.533148]), //primero va al longitud y despues la latitud 
+                zoom: 10, //para ver el tamaño del mapa al iniciar entre mas grande el numero mas cerca se visializa el mapa
+                maxZoom: 19, //se espesifica que tanto zoom se puede hacer el mapa
+                minZoom: 11  //el minimo que se puede alejar del mapa
+            })
+
+        })
+
+        const layerSwitcher = new ol.control.LayerSwitcher({
+            tipLabel: 'Leyenda', // Optional label for button
+            groupSelectStyle: 'children' // Can be 'children' [default], 'group' or 'none'
+        });
+        map.addControl(layerSwitcher);
+    </script>
+
+
+</body>
+
+
+</html>
