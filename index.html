@@ -43,6 +43,7 @@
     </div>
 
     <script>
+        
 
         const mapagoogle = new ol.layer.Tile({
             title: "GOOGLE SATELITE",                       //al usar la libreria para mapas base y poner el boton se debede agregar tambien un title al mapa y un type:'base'
@@ -71,6 +72,37 @@
         })
 
 
+        const xalapa = new ol.layer.Tile({
+            title: 'xalapa',
+            visible:true,
+            source:new ol.source.TileWMS({
+                url:'http://localhost:8080/geoserver/wms?',
+                params:{
+                    VERSION:'1.1.1',
+                    FORMAT:'image/png',
+                    TRANSPARENT:true,
+                    LAYERS:'xalapa:xalapa'
+
+                }
+            })
+        })
+
+        const colonias = new ol.layer.Tile({
+            title: 'Colonias',
+            visible:true,
+            source:new ol.source.TileWMS({
+                url:'http://localhost:8080/geoserver/wms?',
+                params:{
+                    VERSION:'1.1.1',
+                    FORMAT:'image/png',
+                    TRANSPARENT:true,
+                    LAYERS:'xalapa:Colonias_v3_2'
+
+                }
+            })
+        })
+        
+        
         const map = new ol.Map({
             target: 'map',       //se espesifica en donde se renderiza el mapa
             layers: [            //capas que mostrara el mapa
@@ -91,9 +123,9 @@
                         mapagoogle,
                         lysgogole
                     ]
-                })
-
-
+                }),
+                xalapa,
+                colonias
             ],
             view: new ol.View({             //como ver la posision y zoom de del mapa al  cargar
                 center: ol.proj.fromLonLat([-96.872206, 19.533148]), //primero va al longitud y despues la latitud 
